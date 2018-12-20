@@ -1,6 +1,7 @@
 package com.stocktrainer.stockJb.repositories;
 
 import com.stocktrainer.stockJb.ApplicationTest;
+import com.stocktrainer.stockJb.fixtures.DbTestSetup;
 import com.stocktrainer.stockJb.model.User;
 import org.junit.After;
 import org.junit.Before;
@@ -32,13 +33,12 @@ public class UsersRepositoryTest extends ApplicationTest {
 
     @Before
     public void initialize() {
-        testUser = new User(testUsername, testPassword);
-        testRepository.save(testUser);
+        DbTestSetup.addTestData();
     }
 
     @After
     public void cleanUp() {
-        testRepository.deleteAll();
+        DbTestSetup.clearTestData();
     }
 
     @Test
