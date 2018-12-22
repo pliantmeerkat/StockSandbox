@@ -32,7 +32,8 @@ public class UsersControllerTest {
     private UsersRepository mockRepository;
 
     private String test_id = "testId";
-    private User testUser = new User("testUser1", "testUser1");
+    private String testUsername = "testUser1";
+    private User testUser = new User(testUsername, "testUser1");
 
     @Before
     public void initialize() {
@@ -52,7 +53,6 @@ public class UsersControllerTest {
 
     @Test
     public void getUsernameReturnsTestUserWithUsername() {
-
+        when(mockRepository.findByUsername(testUsername)).thenReturn(testUser);
     }
-
 }
