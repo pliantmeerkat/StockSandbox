@@ -26,19 +26,19 @@ public class UsersRepositoryTest extends ApplicationTest {
     @Autowired
     UsersRepository testRepository;
 
-    private String testUsername = "testUsername";
-    private String testPassword = "testPassword";
+    private String testUsername = "testUser1";
+    private String testPassword = "testUser1";
 
     private User testUser;
 
     @Before
     public void initialize() {
-        DbTestSetup.addTestData();
+        DbTestSetup.addTestData(testRepository);
     }
 
     @After
     public void cleanUp() {
-        DbTestSetup.clearTestData();
+        DbTestSetup.clearTestData(testRepository);
     }
 
     @Test
