@@ -2,6 +2,7 @@ package com.stocktrainer.stockJb.controllers;
 
 import com.stocktrainer.stockJb.enums.Endpoints;
 import com.stocktrainer.stockJb.model.Stock;
+import com.stocktrainer.stockJb.model.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,8 +10,9 @@ import org.junit.Test;
 public class StocksControllerTest extends ControllerTest{
 
     private Stock testStock;
+    private User testUser;
 
-    private String testSym = "APL";
+    private String testSym = "aapl";
 
     @Before
     public void initialize() {
@@ -31,4 +33,15 @@ public class StocksControllerTest extends ControllerTest{
     public void testGetStockBySymReturnsErrorWithInvalidSym() {
 
     }
+
+    @Test
+    public void testPurchaseStockReturnsStockPurchaseWithValidJson() {
+
+    }
+
+    @Test
+    public void testPurchaseStockReturnsErrorWithInvalidJson() {
+
+    }
+
 }

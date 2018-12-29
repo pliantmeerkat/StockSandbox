@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 abstract class Authorization {
+
+    Authorization() {}
     static String JSON_SCHEMA_PATH = File.separator.concat("schemas").concat(File.separator);
 
     private static void validateJsonFromSchema(String schemaName, String inputJson) {

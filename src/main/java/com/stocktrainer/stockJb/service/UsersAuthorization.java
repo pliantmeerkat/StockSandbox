@@ -17,10 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersAuthorization extends Authorization {
 
-    private UsersAuthorization() {}
-
     /**
      * <h2>processUserRegistration</h2>
+     * <p>Function used to process user registration, validates input json before processing registration</p>
      * <p>Function used to process user registration, validates input json before processing registration</p>
      * @param userJson input Json from client
      * @param repository users repository to process user db requests
