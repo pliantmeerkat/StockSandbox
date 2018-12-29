@@ -1,6 +1,7 @@
 package com.stocktrainer.stockJb.service;
 
 import com.stocktrainer.stockJb.enums.ErrorConstants;
+import com.stocktrainer.stockJb.exception.InvalidJsonException;
 import com.stocktrainer.stockJb.exception.UserAuthenticationException;
 import com.stocktrainer.stockJb.exception.UserRegistrationException;
 import com.stocktrainer.stockJb.model.User;
@@ -88,17 +89,24 @@ public class UsersAuthorizationTest extends ServiceTest {
     // Invalid Json tests
 
     @Test
-    public void testInvalidJsonFieldsMissingThrowsException() {
-        testJson = "{\",\"password\":\"".concat(testPassword).concat("\"}");
+    public void testInvalidJsonFieldsMissingThrowsException() throws Exception{
+        testJson = ("{\"password\":\"").concat(testPassword).concat("\"}");
+        try {
+            fetchedUser = UsersAuthorization.processUserRegistration(testJson, mockRepository);
+            fail("Exception should be thrown with invalid json");
+        } catch(InvalidJsonException e) {
+            assertEquals(ErrorConstants.JSON_FORMATTING_BASIC.toString(), e.getMessage());
+        }
     }
 
     @Test
-    public void testInvalidJsonNoFieldsThrowsException() {
-        testJson = "{}";
-    }
-
-    @Test
-    public void testInvalidJsonSyntaxIncorrectThrowsException() {
+    public void testInvalidJsonSyntaxIncorrectThrowsException() throws Exception{
         testJson="invalid json";
+        try {
+            fetchedUser = UsersAuthorization.processUserRegistration(testJson, mockRepository);
+            fail("Exception should be thrown with invalid json");
+        } catch(InvalidJsonException e) {
+            assertEquals(ErrorConstants.JSON_FORMATTING_INVALID.toString(), e.getMessage());
+        }
     }
 }

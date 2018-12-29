@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @author jackbranch
  */
 @Service
-public class UsersAuthorization implements Authorization {
+public class UsersAuthorization extends Authorization {
 
     private UsersAuthorization() {}
 
@@ -67,12 +67,8 @@ public class UsersAuthorization implements Authorization {
      * @throws Exception when json is invalid
      */
     private static User getUserFromJson(String userJson) throws Exception {
+        verifyJsonFormatting(userJson);
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(userJson, User.class);
-    }
-
-    private static void verifyJsonFormatting(String userJson) throws Exception {
-        String schemaPath = JSON_SCHEMA_PATH.concat("user-json-schema.json");
-
     }
 }

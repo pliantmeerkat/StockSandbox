@@ -1,5 +1,6 @@
 package com.stocktrainer.stockJb.controllers;
 
+import com.stocktrainer.stockJb.exception.UserAuthenticationException;
 import com.stocktrainer.stockJb.service.UsersAuthorization;
 import com.stocktrainer.stockJb.enums.ErrorConstants;
 import com.stocktrainer.stockJb.model.User;
@@ -31,7 +32,7 @@ public class UsersController implements ApplicationController {
         if(null == foundUser) {
             return new ResponseEntity<>(ErrorConstants.NO_USER_FOUND_ID.toString(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(foundUser, HttpStatus.OK);
+        return new ResponseEntity<>(foundUser.toString(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/username/{username}")
@@ -40,7 +41,7 @@ public class UsersController implements ApplicationController {
         if(null == foundUser) {
             return new ResponseEntity<>(ErrorConstants.NO_USER_FOUND_USERNAME.toString(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(foundUser, HttpStatus.OK);
+        return new ResponseEntity<>(foundUser.toString(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/register")
@@ -49,13 +50,18 @@ public class UsersController implements ApplicationController {
             foundUser = UsersAuthorization.processUserRegistration(userJson, repository);
             return new ResponseEntity<>(foundUser, HttpStatus.OK);
         } catch(Exception e) {
-            return new ResponseEntity<>(ErrorConstants.REGISTER_USERNAME_TAKEN.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping(value = "/login")
     public ResponseEntity loginUser(String userJson) {
-        return null;
+        try {
+            foundUser = UsersAuthorization.processUserLogin(userJson, repository);
+            return new ResponseEntity<>(foundUser, HttpStatus.OK);
+        } catch(Exception | UserAuthenticationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping(value = "/update")

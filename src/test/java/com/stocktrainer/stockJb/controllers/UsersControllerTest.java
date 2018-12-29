@@ -11,16 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UsersController.class)
@@ -29,36 +23,20 @@ public class UsersControllerTest extends ControllerTest {
     @MockBean
     private UsersRepository mockRepository;
 
+    private User testUser;
+
     private String testUsername = "testUser1";
-    private User testUser = new User(testUsername, "testUser1");
+    private String testPassword = "testPassword1";
 
     @Before
     public void initialize() {
+        testUser = new User(testUsername, testPassword);
         endpointUrl = BASE_URL.concat(Endpoints.USERS.toString());
     }
 
     @After
     public void clearUp() {
 
-    }
-
-    private MockHttpServletResponse makeGetRequest(String url) throws Exception {
-        return mockController.perform(get(url).accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-    }
-
-    private MockHttpServletResponse makePostRequest(String url, String requestBody) throws Exception {
-        return mockController.perform(post(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .param("userJson", requestBody))
-                .andReturn().getResponse();
-
-    }
-
-    private void verifyResponseContent(int expectedCode, String expectedText) throws Exception {
-        assertEquals(expectedCode, response.getStatus());
-        responseBody = response.getContentAsString();
-        assertTrue(responseBody.contains(expectedText));
     }
 
     @Test
@@ -111,18 +89,24 @@ public class UsersControllerTest extends ControllerTest {
         processRegistrationTest(testUser, 400, ErrorConstants.REGISTER_USERNAME_TAKEN.toString());
     }
 
-    private void processLoginTest() {
-
+    private void processLoginTest(String inputPassword, User mockReturnValue, int expectedCode, String expectedResponse) throws Exception{
+        visitUrl = endpointUrl.concat("/login");
+        requestBody = "{\"username\":\"testUser1\", \"password\":\"".concat(inputPassword).concat("\"}");
+        when(mockRepository.findByUsername(testUsername)).thenReturn(mockReturnValue);
+        when(mockRepository.save(any())).thenReturn(testUser);
+        response = makePostRequest(visitUrl, requestBody);
+        verifyResponseContent(expectedCode, expectedResponse);
     }
 
     @Test
-    public void loginUserReturnsUserIdWithValidUsernameAndPassword() {
-
+    public void loginUserReturnsUserWithValidUsernameAndPassword() throws Exception{
+        processLoginTest(testPassword, testUser, 200, testUsername);
     }
 
     @Test
-    public void loginUserReturnErrorIdWithValidUsernameAndPassword() {
-
+    public void loginUserReturnErrorIdWithValidUsernameAndWrongPassword() throws Exception {
+        String invalidPassword = "invalidPassword";
+        processLoginTest(invalidPassword, testUser, 400, ErrorConstants.LOGIN_INVALID.toString());
     }
 
     private void processDeleteTest() {

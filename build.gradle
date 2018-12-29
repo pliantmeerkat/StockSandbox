@@ -30,4 +30,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	compileOnly('org.projectlombok:lombok')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    compile 'org.everit.json:org.everit.json.schema:1.0.0'
+
 }

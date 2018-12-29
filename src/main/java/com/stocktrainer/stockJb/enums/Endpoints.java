@@ -2,7 +2,8 @@ package com.stocktrainer.stockJb.enums;
 
 public enum Endpoints {
 
-    USERS("/user");
+    USERS("/user"),
+    STOCKS("/stock");
 
     private String endpointName;
 

@@ -1,16 +1,9 @@
 package com.stocktrainer.stockJb.model;
-
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-
 /**
  * <h1>User</h1>
  * <p>Base user class</p>
  */
-public class User implements ApplicationModel {
-
-    @Id
-    private ObjectId _id;
+public class User extends DatabaseModel {
 
     private String username;
     private String password;
@@ -22,14 +15,6 @@ public class User implements ApplicationModel {
 
     public User() {}
 
-    public Object get_id() {
-        return this._id;
-    }
-
-    public void setId(ObjectId _id) {
-        this._id = _id;
-    }
-
     public String getUsername() {
         return  this.username;
     }
@@ -38,6 +23,6 @@ public class User implements ApplicationModel {
 
     @Override
     public String toString() {
-        return "username:".concat(this.username);
+        return "Username".concat(this.username);
     }
 }

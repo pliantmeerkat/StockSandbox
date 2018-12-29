@@ -8,7 +8,8 @@ public enum ErrorConstants {
     LOGIN_INVALID("Error: Username of password incorrect"),
     JSON_FORMATTING_BASIC("Error: Json formatting is incorrect"),
     JSON_FORMATTING_SPECIFIC("Error: Json formatting is incorrect at:\n"),
-    JSON_FORMATTING_INVALID("Error: Json syntax is invalid");
+    JSON_FORMATTING_INVALID("Error: Json syntax is invalid"),
+    NO_SUCH_STOCK_SYM("Error: Stock not found with that symbol");
 
     private String fieldName;
 
