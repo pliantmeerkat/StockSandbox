@@ -1,9 +1,7 @@
 package com.stocktrainer.stockJb.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stocktrainer.stockJb.authorization.UsersAuthorization;
+import com.stocktrainer.stockJb.service.UsersAuthorization;
 import com.stocktrainer.stockJb.enums.ErrorConstants;
-import com.stocktrainer.stockJb.exception.UserRegistrationException;
 import com.stocktrainer.stockJb.model.User;
 import com.stocktrainer.stockJb.repositories.UsersRepository;
 import org.bson.types.ObjectId;

@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UsersRepositoryTest extends ApplicationTest {
+public class UsersRepositoryTest implements ApplicationTest {
 
     @Autowired
     UsersRepository testRepository;

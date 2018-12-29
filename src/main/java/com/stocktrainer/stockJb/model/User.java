@@ -20,6 +20,8 @@ public class User implements ApplicationModel {
         this.password = password;
     }
 
+    public User() {}
+
     public Object get_id() {
         return this._id;
     }
@@ -31,6 +33,8 @@ public class User implements ApplicationModel {
     public String getUsername() {
         return  this.username;
     }
+
+    public String getPassword() {return this.password;}
 
     @Override
     public String toString() {

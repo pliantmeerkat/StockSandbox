@@ -1,9 +1,7 @@
 package com.stocktrainer.stockJb.controllers;
 
-import com.stocktrainer.stockJb.authorization.UsersAuthorization;
 import com.stocktrainer.stockJb.enums.Endpoints;
 import com.stocktrainer.stockJb.enums.ErrorConstants;
-import com.stocktrainer.stockJb.fixtures.DbTestSetup;
 import com.stocktrainer.stockJb.model.User;
 import com.stocktrainer.stockJb.repositories.UsersRepository;
 import org.bson.types.ObjectId;
@@ -16,10 +14,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.jvm.hotspot.debugger.Page;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,7 +29,6 @@ public class UsersControllerTest extends ControllerTest {
     @MockBean
     private UsersRepository mockRepository;
 
-    private String test_id = "5349b4ddd2781d08c09890f3";
     private String testUsername = "testUser1";
     private User testUser = new User(testUsername, "testUser1");
 
@@ -99,6 +96,7 @@ public class UsersControllerTest extends ControllerTest {
         visitUrl = endpointUrl.concat("/register");
         requestBody = "{\"username\":\"testUser1\", \"password\":\"testUser1\"}";
         when(mockRepository.findByUsername(testUsername)).thenReturn(mockReturnValue);
+        when(mockRepository.save(any())).thenReturn(testUser);
         response = makePostRequest(visitUrl, requestBody);
         verifyResponseContent(expectedCode, expectedResponse);
     }
